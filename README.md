@@ -45,6 +45,7 @@ La página está desarrollada sin frameworks ni proceso de compilación:
 newbyte-unlimited-web/
 ├── imagenes/
 │   ├── logo.png
+│   ├── favicon.svg
 │   ├── ulises.png
 │   ├── nahuel.png
 │   └── benjamin.png
