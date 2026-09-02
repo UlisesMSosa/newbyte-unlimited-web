@@ -28,20 +28,29 @@ const toast = document.querySelector('.copy-toast');
 let toastTimer;
 
 const progress = document.querySelector('.scroll-progress');
+let progressTicking = false;
 const updateProgress = () => {
   const available = document.documentElement.scrollHeight - window.innerHeight;
   progress.style.width = `${available > 0 ? (window.scrollY / available) * 100 : 0}%`;
+  progressTicking = false;
 };
-window.addEventListener('scroll', updateProgress, { passive: true });
+window.addEventListener('scroll', () => {
+  if (!progressTicking) {
+    requestAnimationFrame(updateProgress);
+    progressTicking = true;
+  }
+}, { passive: true });
 updateProgress();
 
-document.querySelectorAll('.service-card').forEach(card => {
-  card.addEventListener('pointermove', event => {
-    const bounds = card.getBoundingClientRect();
-    card.style.setProperty('--mx', `${event.clientX - bounds.left}px`);
-    card.style.setProperty('--my', `${event.clientY - bounds.top}px`);
+if (window.matchMedia('(pointer: fine)').matches) {
+  document.querySelectorAll('.service-card').forEach(card => {
+    card.addEventListener('pointermove', event => {
+      const bounds = card.getBoundingClientRect();
+      card.style.setProperty('--mx', `${event.clientX - bounds.left}px`);
+      card.style.setProperty('--my', `${event.clientY - bounds.top}px`);
+    });
   });
-});
+}
 
 document.querySelectorAll('.copy-contact').forEach(button => {
   button.addEventListener('click', async () => {
